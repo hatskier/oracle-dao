@@ -36,7 +36,7 @@ TODO: add
 0x195bf26a67bBdA2694C5D2E4B4d21701f63977cF
 
 ## 7. The website link (if applicable)
-TODO: add a link
+https://unique-centaur-52f854.netlify.app/
 
 ## 8. Documentation on how to run the project
 
@@ -94,7 +94,13 @@ You can run tests using the `yarn test` command.
 
 Front-end code is located in the [frontend/](frontend/) folder.
 
-TODO: add more details about the frontend
+Frontend is accessible under: https://unique-centaur-52f854.netlify.app/
+
+It has the following routes:
+
+- Main route
+- Route with the selected Dispute
+- Route with the dispute creation
 
 ## 12. Screens / graphic materials (optional)
 
