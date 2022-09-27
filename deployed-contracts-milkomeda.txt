@@ -1,0 +1,11 @@
+Deployed using: `npx hardhat run scripts/deploy.js --network milkomeda`
+
+DAO token: 0x973cAB279B99a18D3e5F63B9680F2E28D0A5C9A9
+Dispute Resolution Engine: 0xd75090Dd1022C1aC584851f4a3Ba06b27b7D05e0
+Staking registry: 0x9D98Cc66E3dB0f759971Ff5203bC58A1b76bFab4
+
+Links to the Milkomeda explorer:
+DAO token: https://explorer-devnet-cardano-evm.c1.milkomeda.com/address/0x973cAB279B99a18D3e5F63B9680F2E28D0A5C9A9
+Dispute Resolution Engine: https://explorer-devnet-cardano-evm.c1.milkomeda.com/address/0xd75090Dd1022C1aC584851f4a3Ba06b27b7D05e0
+Staking registry: https://explorer-devnet-cardano-evm.c1.milkomeda.com/address/0x9D98Cc66E3dB0f759971Ff5203bC58A1b76bFab4
+

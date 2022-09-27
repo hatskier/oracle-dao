@@ -43,18 +43,18 @@ contract DisputeResolutionEngine is OwnableUpgradeable {
     DisputeVerdict verdict;
   }
 
-  IERC20 private _redstoneToken;
+  IERC20 private _DaoToken;
   Dispute[] private _disputes;
   mapping(uint256 => mapping(address => Vote)) private _votes; // disputeId => (address => Vote)
   StakingRegistry private _stakingRegistry;
 
-  constructor(address redstoneTokenAddress) {
+  constructor(address DaoTokenAddress) {
     _stakingRegistry = new StakingRegistry(
-      redstoneTokenAddress,
+      DaoTokenAddress,
       address(this),
       LOCK_PERIOD_FOR_UNSTAKING_SECONDS
     );
-    _redstoneToken = IERC20(redstoneTokenAddress);
+    _DaoToken = IERC20(DaoTokenAddress);
   }
 
   function createDispute(
@@ -99,7 +99,8 @@ contract DisputeResolutionEngine is OwnableUpgradeable {
       "Insufficient locked tokens amount for voting"
     );
     require(
-      block.timestamp < dispute.creationTimestampSeconds + COMMIT_PERIOD_SECONDS,
+      block.timestamp <
+        dispute.creationTimestampSeconds + COMMIT_PERIOD_SECONDS,
       "Commit period ended"
     );
 
@@ -117,13 +118,22 @@ contract DisputeResolutionEngine is OwnableUpgradeable {
     // Checking if the user can reveal their vote
     require(
       block.timestamp <
-        dispute.creationTimestampSeconds + COMMIT_PERIOD_SECONDS + REVEAL_PERIOD_SECONDS,
+        dispute.creationTimestampSeconds +
+          COMMIT_PERIOD_SECONDS +
+          REVEAL_PERIOD_SECONDS,
       "Reveal period ended"
     );
-    require(vote.lockedTokensAmount > 0, "Cannot find the commited vote to reveal");
+    require(
+      vote.lockedTokensAmount > 0,
+      "Cannot find the commited vote to reveal"
+    );
 
     // Verifying commit hash against the revealed vote
-    bytes32 expectedCommitHash = calculateHashForVote(disputeId, salt, votedForGuilty);
+    bytes32 expectedCommitHash = calculateHashForVote(
+      disputeId,
+      salt,
+      votedForGuilty
+    );
     require(
       expectedCommitHash == vote.commitHash,
       "Commited hash doesn't match with the revealed vote"
@@ -145,10 +155,15 @@ contract DisputeResolutionEngine is OwnableUpgradeable {
     Dispute storage dispute = _disputes[disputeId];
 
     // Checking if the dispute can be settled
-    require(dispute.verdict == DisputeVerdict.Unknown, "Dispute has already been settled");
+    require(
+      dispute.verdict == DisputeVerdict.Unknown,
+      "Dispute has already been settled"
+    );
     require(
       block.timestamp >
-        dispute.creationTimestampSeconds + COMMIT_PERIOD_SECONDS + REVEAL_PERIOD_SECONDS,
+        dispute.creationTimestampSeconds +
+          COMMIT_PERIOD_SECONDS +
+          REVEAL_PERIOD_SECONDS,
       "Settlement period hasn't started yet"
     );
 
@@ -158,7 +173,9 @@ contract DisputeResolutionEngine is OwnableUpgradeable {
 
       // Safely slashing stake from the guilty provider
       // And adding it to the dispute reward pool
-      uint256 availableStakedBalance = _stakingRegistry.getStakedBalance(dispute.accusedAddress);
+      uint256 availableStakedBalance = _stakingRegistry.getStakedBalance(
+        dispute.accusedAddress
+      );
       if (availableStakedBalance >= PENALTY_AMOUNT) {
         _stakingRegistry.slashStake(dispute.accusedAddress, PENALTY_AMOUNT);
         dispute.rewardPoolTokensAmount += PENALTY_AMOUNT;
@@ -170,9 +187,12 @@ contract DisputeResolutionEngine is OwnableUpgradeable {
 
   // If a user has won a dispute, they need to manually claim reward
   function claimRewardForDispute(uint256 disputeId) external {
-    uint256 rewardForUser = calculatePendingRewardForUser(disputeId, msg.sender);
+    uint256 rewardForUser = calculatePendingRewardForUser(
+      disputeId,
+      msg.sender
+    );
     _votes[disputeId][msg.sender].claimedReward = true;
-    _redstoneToken.transfer(msg.sender, rewardForUser);
+    _DaoToken.transfer(msg.sender, rewardForUser);
   }
 
   function calculatePendingRewardForUser(uint256 disputeId, address userAddress)
@@ -184,21 +204,27 @@ contract DisputeResolutionEngine is OwnableUpgradeable {
     Vote storage userVote = _votes[disputeId][userAddress];
 
     // Checking if the user is elgigble for the reward
-    require(dispute.verdict != DisputeVerdict.Unknown, "Dispute has not been sttled yet");
+    require(
+      dispute.verdict != DisputeVerdict.Unknown,
+      "Dispute has not been sttled yet"
+    );
     require(userVote.revealedVote, "User didn't reveal vote");
     require(
       userVote.votedForGuilty || dispute.verdict == DisputeVerdict.NotGuilty,
       "User didn't win the dispute"
     );
-    require(!userVote.claimedReward, "User already claimed reward for this dispute");
+    require(
+      !userVote.claimedReward,
+      "User already claimed reward for this dispute"
+    );
 
     // Calculaing reward amount for the user
     uint256 totalLockedTokenOfAllWinners = _max(
       dispute.revealedForGuiltyAmount,
       dispute.revealedForNotGuiltyAmount
     );
-    uint256 userRewardAmount = (dispute.rewardPoolTokensAmount * userVote.lockedTokensAmount) /
-      totalLockedTokenOfAllWinners;
+    uint256 userRewardAmount = (dispute.rewardPoolTokensAmount *
+      userVote.lockedTokensAmount) / totalLockedTokenOfAllWinners;
 
     return userRewardAmount;
   }
@@ -223,11 +249,19 @@ contract DisputeResolutionEngine is OwnableUpgradeable {
     return _disputes.length;
   }
 
-  function getDisputeDetails(uint256 disputeId) public view returns (Dispute memory) {
+  function getDisputeDetails(uint256 disputeId)
+    public
+    view
+    returns (Dispute memory)
+  {
     return _disputes[disputeId];
   }
 
-  function getUserVote(address user, uint256 disputeId) public view returns (Vote memory) {
+  function getUserVote(address user, uint256 disputeId)
+    public
+    view
+    returns (Vote memory)
+  {
     return _votes[disputeId][user];
   }
 
@@ -248,7 +282,7 @@ contract DisputeResolutionEngine is OwnableUpgradeable {
 
     // Locking tokens on this contract. It will fail if user hasn't approved
     // tokens spending by this contract
-    _redstoneToken.transferFrom(msg.sender, address(this), lockedTokensAmount);
+    _DaoToken.transferFrom(msg.sender, address(this), lockedTokensAmount);
 
     // Saving a new vote
     _votes[disputeId][msg.sender] = Vote({
