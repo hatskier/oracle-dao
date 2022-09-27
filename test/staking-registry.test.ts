@@ -1,10 +1,10 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { RedstoneToken, StakingRegistry } from "../typechain-types";
+import { DaoToken, StakingRegistry } from "../typechain-types";
 
 describe("Staking registry", () => {
-  let token: RedstoneToken,
+  let token: DaoToken,
     staking: StakingRegistry,
     signers: SignerWithAddress[],
     authorisedStakeSlasher: SignerWithAddress;
@@ -16,9 +16,7 @@ describe("Staking registry", () => {
     authorisedStakeSlasher = signers[3];
 
     // Deploy token contract
-    const TokenContractFactory = await ethers.getContractFactory(
-      "RedstoneToken"
-    );
+    const TokenContractFactory = await ethers.getContractFactory("DaoToken");
     token = await TokenContractFactory.deploy(1000);
     await token.deployed();
 

@@ -6,7 +6,7 @@ import { ethers } from "hardhat";
 import { generateSaltForVote } from "../src/utils";
 import {
   DisputeResolutionEngine,
-  RedstoneToken,
+  DaoToken,
   StakingRegistry,
 } from "../typechain-types";
 
@@ -45,7 +45,7 @@ describe("Dispute resolution engine", () => {
     dataProvider: SignerWithAddress,
     disputeCreator: SignerWithAddress,
     voters: SignerWithAddress[],
-    token: RedstoneToken,
+    token: DaoToken,
     staking: StakingRegistry,
     disputeResolutionEngine: DisputeResolutionEngine;
   const disputeId = 0; // Will be used for majority of tests
@@ -211,9 +211,7 @@ describe("Dispute resolution engine", () => {
 
   const deployContracts = async () => {
     // Deploy token contract
-    const TokenContractFactory = await ethers.getContractFactory(
-      "RedstoneToken"
-    );
+    const TokenContractFactory = await ethers.getContractFactory("DaoToken");
     token = await TokenContractFactory.deploy(toBigNum(TOTAL_SUPPLY));
     await token.deployed();
 
@@ -312,6 +310,7 @@ describe("Dispute resolution engine", () => {
   ) => {
     // Prepare salt and hash
     const voteSalt = await generateSaltForVote(disputeId, voter);
+    console.log(voteSalt);
     const commitHash = await disputeResolutionEngine.calculateHashForVote(
       disputeId,
       voteSalt,

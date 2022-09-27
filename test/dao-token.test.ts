@@ -1,13 +1,13 @@
 import { expect } from "chai";
 import { Signer } from "ethers";
 import { ethers } from "hardhat";
-import { RedstoneToken } from "../typechain-types";
+import { DaoToken } from "../typechain-types";
 
 describe("Redstone token", () => {
-  let contract: RedstoneToken, signers: Signer[];
+  let contract: DaoToken, signers: Signer[];
 
   beforeEach(async () => {
-    const ContractFactory = await ethers.getContractFactory("RedstoneToken");
+    const ContractFactory = await ethers.getContractFactory("DaoToken");
     contract = await ContractFactory.deploy(1000);
     await contract.deployed();
     signers = await ethers.getSigners();

@@ -13,7 +13,7 @@ TODO: add
 ## 4. Long description of the project
 TODO: add
 
-## 5. Tech stack used (e.g. Web3 Js, Solidity, Truffle, Ipfs)
+## 5. Tech stack used
 - Smart contracts
   - Solidity
   - Hardhat
@@ -38,7 +38,7 @@ TODO: add
 ## 7. The website link (if applicable)
 TODO: add a link
 
-8. Documentation on how to run the project
+## 8. Documentation on how to run the project
 
 ### Install dependencies
 ```sh
