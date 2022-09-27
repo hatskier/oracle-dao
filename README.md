@@ -8,10 +8,16 @@ OracleDAO
 Alex Suvorov
 
 ## 3. Short description of the project
-TODO: add
+Oracles are a crucial piece of blockchain infrastructure. Thanks to them other web3 applications can access data that wouldn't be available on blockchain otherwise.
+DAO for data providers is another step forward in the oracle development. It creates an ecosystem where reliable sources of data for oracles are rewarded, while actors trying to push untruthful information get penalized.
 
 ## 4. Long description of the project
-TODO: add
+
+Oracles need an efficient and self-sustainable way of getting data that are later put on blockchain. This can be achieved in several different ways like using official government sources or well-known media, however even the most honest websites are prone to mistakes and hacks. If the incorrect data are later used in DeFi protocols, this could cause a massive shake-ups on the market.
+
+DAO for data providers will allow to create a reliable ecosystem rewarding true information while penalizing data providers who are wrong. Such a solution creates a decentralized and automated ecosystem, where everyone can take part in verification of the data. This also helps to automate the process and allows to provide oracles not only with simple price feeds but also with all kinds of off-chain world information.
+
+The project has been built on Milkomeda which is an EVM-compatible Cardano rollup and it is connected to RedStone EVM-compatible oracle. This setup opens the project up for a fast-growing ecosystem.
 
 ## 5. Tech stack used
 - Smart contracts
@@ -66,7 +72,7 @@ $ yarn serve
 Documentation on Gitbook: https://milkomeda-hackathon.gitbook.io/dao-for-data-providers/
 
 ## 9. Recorded pitch
-TODO: add a youtube link
+https://youtu.be/i5TY-38gIFk
 
 ## 10. Smart-contracts
 
