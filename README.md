@@ -110,4 +110,17 @@ It has the following routes:
 
 ## 12. Screens / graphic materials (optional)
 
-TODO: add screens
+### Disputes list
+<img width="1275" alt="Screenshot 2022-09-27 at 16 09 07" src="https://user-images.githubusercontent.com/48165439/192549515-88e83ff1-29cc-4e87-92c6-3eadea679379.png">
+
+### Vote commitment
+<img width="1256" alt="Screenshot 2022-09-27 at 16 09 26" src="https://user-images.githubusercontent.com/48165439/192549598-04127922-8172-40d3-8b50-d33a2ef7d9f9.png">
+
+### Vote revealing
+<img width="1260" alt="Screenshot 2022-09-27 at 16 09 59" src="https://user-images.githubusercontent.com/48165439/192549743-84532d88-3443-4032-a2a1-6428d7b2f3de.png">
+
+### Reward claiming
+<img width="1249" alt="Screenshot 2022-09-27 at 16 10 33" src="https://user-images.githubusercontent.com/48165439/192549891-b668a63b-2457-4ce1-87e9-400a24a5246b.png">
+
+### New dispute creation
+<img width="968" alt="Screenshot 2022-09-27 at 16 10 59" src="https://user-images.githubusercontent.com/48165439/192550003-76ca3797-6d3f-4b2d-bd86-4ae468a2106a.png">
