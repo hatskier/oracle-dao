@@ -110,3 +110,5 @@ artifacts
 # Typechain
 typechain
 typechain-types
+
+.DS_Store
